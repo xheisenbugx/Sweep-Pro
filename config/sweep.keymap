@@ -27,16 +27,6 @@
 #define MOUSE 5
 #define CODEX 6
 
-#if defined(NXTKB_CODEX_MICRO)
-#define CODEX_ENTRY &tog CODEX
-#define CODEX_EXIT &tog CODEX
-#define CODEX_KEY(n) &codex_key n
-#else
-#define CODEX_ENTRY &trans
-#define CODEX_EXIT &trans
-#define CODEX_KEY(n) &trans
-#endif
-
 #define SPEED_POINTER 0
 #define SPEED_SCROLL 1
 #define SPEED_PREV 0
@@ -265,7 +255,7 @@
 		tri_layer {
 			display-name = "FUN";
 			bindings = <
-			&kp F1  &kp F2   &kp F3   &kp F4   &bt BT_SEL 0    &bt BT_SEL 2  &out OUT_TOG   CODEX_ENTRY  &kp C_MUTE    &kp C_PREV
+			&kp F1  &kp F2   &kp F3   &kp F4   &bt BT_SEL 0    &bt BT_SEL 2  &out OUT_TOG   &tog CODEX  &kp C_MUTE    &kp C_PREV
 			&kp F5  &kp F6   &kp F7   &kp F8   &bt BT_SEL 1    &bt BT_SEL 3  &kp C_BRI_UP   &studio_unlock    &kp C_VOL_UP  &kp C_PP
 			&kp F9  &kp F10  &kp F11  &kp F12  &bt BT_CLR      &bt BT_SEL 4  &kp C_BRI_DEC  &soft_off     &kp C_VOL_DN  &kp C_NEXT
 			&kp C_MUTE  &trans   &trans          &trans        &trans  &studio_unlock
@@ -288,8 +278,8 @@
 		codex {
 			display-name = "CODEX";
 			bindings = <
-			CODEX_KEY(CODEX_AGENT_0)  CODEX_KEY(CODEX_AGENT_1)  CODEX_KEY(CODEX_AGENT_2)  CODEX_KEY(CODEX_AGENT_3)  CODEX_KEY(CODEX_AGENT_4)  CODEX_KEY(CODEX_AGENT_5)  &trans  &trans  &trans  CODEX_EXIT
-			CODEX_KEY(CODEX_APPROVE)  CODEX_KEY(CODEX_SPLIT)  CODEX_KEY(CODEX_DECLINE)  CODEX_KEY(CODEX_FAST)  &trans  CODEX_KEY(CODEX_MIC)  CODEX_KEY(CODEX_SEND)  &trans  &trans  &trans
+			&codex_key CODEX_AGENT_0  &codex_key CODEX_AGENT_1  &codex_key CODEX_AGENT_2  &codex_key CODEX_AGENT_3  &codex_key CODEX_AGENT_4  &codex_key CODEX_AGENT_5  &trans  &trans  &trans  &tog CODEX
+			&codex_key CODEX_APPROVE  &codex_key CODEX_SPLIT  &codex_key CODEX_DECLINE  &codex_key CODEX_FAST  &trans  &codex_key CODEX_MIC  &codex_key CODEX_SEND  &trans  &trans  &trans
 			&trans  &trans  &trans         &trans         &trans           &trans         &trans         &trans         &trans  &trans
 			&trans  &trans  &trans         &trans         &trans           &studio_unlock
 			>;
