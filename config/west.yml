@@ -6,14 +6,16 @@ manifest:
     url-base: https://github.com/lynnlee0522
   - name: nxtkb
     url-base: https://github.com/nxtkb
+  - name: xheisenbugx
+    url-base: https://github.com/xheisenbugx
   projects:
   - name: zmk
     remote: zmkfirmware
     revision: cb615aee9a7c427e251f2ab62080c1a44a165da9
     import: app/west.yml
   - name: zmk-vfx-sweep-pro-display
-    remote: nxtkb
-    revision: afae3dcf7d94113dfbeb19fb4e4fbd08d6564008
+    remote: xheisenbugx
+    revision: 8e18d3039db0b72f784642665f6762200142cbc6
   - name: zmk-feature-codex-micro
     remote: nxtkb
     revision: 0240a936280eb9ecec769279715999968b9760cd
