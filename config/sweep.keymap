@@ -41,6 +41,12 @@
     right_encoder { triggers-per-rotation = <45>; };
 };
 
+&lt {
+    flavor = "balanced";
+    tapping-term-ms = <200>;
+    quick-tap-ms = <175>;
+};
+
 &glidepoint_listener { input-processors = <&pointer_processor 0 0 &drag_scroll_processor 1 8>; };
 
 / {
@@ -125,8 +131,11 @@
             bindings = <&drgscrl>, <&kp>;
         };
 
-        ht: hold_tap {
-            label = "hold_tap";
+        // Timeless positional home row mods (urob-style): balanced +
+        // require-prior-idle + cross-hand-only trigger positions.
+        // Left: 0-4 10-14 20-24, right: 5-9 15-19 25-29, thumbs: 30-35.
+
+        hml: home_row_mod_left {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
             flavor = "balanced";
@@ -134,6 +143,22 @@
             quick-tap-ms = <175>;
             require-prior-idle-ms = <150>;
             bindings = <&kp>, <&kp>;
+
+            hold-trigger-key-positions = <5 6 7 8 9 15 16 17 18 19 25 26 27 28 29 30 31 32 33 34 35>;
+            hold-trigger-on-release;
+        };
+
+        hmr: home_row_mod_right {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "balanced";
+            tapping-term-ms = <280>;
+            quick-tap-ms = <175>;
+            require-prior-idle-ms = <150>;
+            bindings = <&kp>, <&kp>;
+
+            hold-trigger-key-positions = <0 1 2 3 4 10 11 12 13 14 20 21 22 23 24 30 31 32 33 34 35>;
+            hold-trigger-on-release;
         };
 
         mmv {
@@ -154,14 +179,52 @@
     combos {
         compatible = "zmk,combos";
 
-        underscore {
-            bindings = <&kp UNDER>;
-            key-positions = <25 15>;
-        };
-
         escape {
             bindings = <&kp ESCAPE>;
-            key-positions = <16 17>;
+            key-positions = <16 17>;        // J + K
+            layers = <0>;
+            timeout-ms = <30>;
+            require-prior-idle-ms = <150>;
+        };
+
+        caps_word {
+            bindings = <&caps_word>;
+            key-positions = <13 16>;        // F + J
+            layers = <0>;
+            timeout-ms = <30>;
+            require-prior-idle-ms = <150>;
+        };
+
+        copy {
+            bindings = <&kp LG(C)>;
+            key-positions = <21 22>;        // X + C
+            layers = <0>;
+            timeout-ms = <30>;
+            require-prior-idle-ms = <150>;
+        };
+
+        paste {
+            bindings = <&kp LG(V)>;
+            key-positions = <22 23>;        // C + V
+            layers = <0>;
+            timeout-ms = <30>;
+            require-prior-idle-ms = <150>;
+        };
+
+        cut {
+            bindings = <&kp LG(X)>;
+            key-positions = <21 23>;        // X + V
+            layers = <0>;
+            timeout-ms = <30>;
+            require-prior-idle-ms = <150>;
+        };
+
+        underscore {
+            bindings = <&kp UNDER>;
+            key-positions = <15 25>;        // H + N
+            layers = <0>;
+            timeout-ms = <40>;
+            require-prior-idle-ms = <100>;
         };
     };
 
@@ -171,10 +234,10 @@
         default_layer {
             display-name = "DEF";
             bindings = <
-&kp Q        &kp W       &kp E       &kp R            &kp T      &kp Y        &kp U         &kp I           &kp O       &kp P
-&ht LCTRL A  &ht LALT S  &ht LGUI D  &ht LSHIFT F     &kp G      &kp H        &ht RSHIFT J  &ht RGUI K      &ht RALT L  &ht RCTRL SINGLE_QUOTE
-&kp Z        &kp X       &kp C       &kp V            &kp B      &kp N        &kp M         &kp COMMA       &kp DOT     &kp SLASH
-                         &kp C_MUTE  &lt 1 BACKSPACE  &lt 2 TAB  &lt 2 ENTER  &lt 1 SPACE   &studio_unlock
+&kp Q          &kp W         &kp E        &kp R                     &kp T                     &kp Y                     &kp U        &kp I        &kp O         &kp P
+&hml LSHIFT A  &hml LCTRL S  &hml LALT D  &hml LGUI F               &hml LS(LC(LA(LGUI))) G   &hmr LS(LC(LA(LGUI))) H   &hmr RGUI J  &hmr RALT K  &hmr RCTRL L  &hmr RSHIFT SINGLE_QUOTE
+&kp Z          &kp X         &kp C        &kp V                     &kp B                     &kp N                     &kp M        &kp COMMA    &kp DOT       &kp SLASH
+                             &kp C_MUTE   &lt 1 BACKSPACE           &lt 2 TAB                 &lt 2 ENTER               &lt 1 SPACE  &studio_unlock
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp C_BRI_DEC C_BRI_UP>;
@@ -183,10 +246,10 @@
         symbols {
             display-name = "SYM";
             bindings = <
-&kp EXCL        &kp AT           &kp LEFT_PARENTHESIS   &kp RIGHT_PARENTHESIS     &kp PIPE       &kp PLUS   &kp N7        &kp N8          &kp N9        &kp STAR
-&ht LCTRL HASH  &ht LALT DOLLAR  &ht LGUI LEFT_BRACKET  &ht LSHIFT RIGHT_BRACKET  &kp AMPERSAND  &kp EQUAL  &kp NUMBER_4  &kp N5          &kp NUMBER_6  &kp SEMI
-&kp PERCENT     &kp CARET        &kp LEFT_BRACE         &kp RIGHT_BRACE           &kp TILDE      &kp MINUS  &kp NUMBER_1  &kp NUMBER_2    &kp NUMBER_3  &kp SLASH
-                                 &kp C_MUTE             &kp BACKSLASH             &kp GRAVE      &kp DOT    &kp N0        &studio_unlock
+&kp EXCL          &kp AT             &kp LEFT_BRACE              &kp RIGHT_BRACE              &kp PIPE       &kp PLUS   &kp N7       &kp N8       &kp N9        &kp STAR
+&hml LSHIFT HASH  &hml LCTRL DOLLAR  &hml LALT LEFT_PARENTHESIS  &hml LGUI RIGHT_PARENTHESIS  &kp AMPERSAND  &kp EQUAL  &hmr RGUI N4  &hmr RALT N5  &hmr RCTRL N6  &hmr RSHIFT SEMI
+&kp PERCENT       &kp CARET          &kp LEFT_BRACKET            &kp RIGHT_BRACKET            &kp TILDE      &kp MINUS  &kp N1       &kp N2       &kp N3        &kp SLASH
+                                     &kp C_MUTE                  &kp BACKSLASH                &kp GRAVE      &kp SPACE  &kp N0       &studio_unlock
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp C_BRI_DEC C_BRI_UP>;
@@ -195,10 +258,10 @@
         navigation {
             display-name = "navigation";
             bindings = <
-&none             &none            &none                  &none              &none   &none     &none      &none           &none      &none
-&ht LCTRL ESCAPE  &ht LALT K_PREV  &ht LGUI K_PLAY_PAUSE  &ht LSHIFT K_NEXT  &none   &kp LEFT  &kp DOWN   &kp UP          &kp RIGHT  &none
-&none             &none            &none                  &none              &none   &kp HOME  &kp PG_DN  &kp PG_UP       &kp END    &none
-                                   &kp C_MUTE             &trans             &trans  &trans    &trans     &studio_unlock
+&none               &kp C_VOL_DN       &kp C_MUTE        &kp C_VOL_UP      &kp LS(LC(LA(C)))     &kp LS(LC(LA(LEFT)))  &kp LS(LC(LA(DOWN)))  &kp LS(LC(LA(UP)))  &kp LS(LC(LA(RIGHT)))  &kp LS(LC(LA(ENTER)))
+&hml LSHIFT ESCAPE  &hml LCTRL C_PREV  &hml LALT C_PP    &hml LGUI C_NEXT  &kp LS(LC(LA(BSPC)))  &kp LEFT              &kp DOWN              &kp UP              &kp RIGHT              &kp LC(LG(F))
+&none               &kp K_CUT          &kp K_COPY        &kp K_PASTE       &none                 &kp HOME              &kp PG_DN             &kp PG_UP           &kp END                &kp LS(LC(LA(N)))
+                                       &kp C_MUTE        &trans            &trans                &trans                &trans                &studio_unlock
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_kp C_BRI_DEC C_BRI_UP>;
